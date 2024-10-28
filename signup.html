@@ -139,13 +139,13 @@
 
                 document.getElementById('signUpMessage').textContent = 'Sign Up Successful!';
                 document.getElementById('signUpMessage').className = 'success';
-                window.location.href = 'index.html'; // Redirect after signup
             })
             .catch((error) => {
                 let errorMessage = error.message.replace(/Firebase:\s*/i, '');
                 document.getElementById('signUpMessage').textContent = errorMessage;
                 document.getElementById('signUpMessage').className = 'error';
             });
+            window.location.href = 'login.html'; 
         }
 
         document.getElementById('signUpForm').addEventListener('submit', (e) => {
