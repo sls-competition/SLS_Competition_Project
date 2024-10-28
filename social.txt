@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Health</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #eef2f3;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            background-color: #007BFF; /* Blue */
+            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2em; /* Increased font size for visibility */
+        }
+        header a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em; /* Increased font size for visibility */
+            margin-top: 10px;
+            display: inline-block;
+        }
+        main {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 20px;
+            width: 90%;
+            max-width: 600px;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #007BFF; /* Blue */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 15px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        button:hover {
+            transform: translateY(-3px);
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+        #tip, #user-tip {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            border-top: 2px solid #007BFF; /* Blue */
+            padding-top: 15px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Social Health</h1>
+        <a href="index.html">Home</a>
+    </header>
+    <main>
+        <h2>Get a Social Health Tip</h2>
+        <button onclick="getTip()">Get a Tip</button>
+        <div id="tip"></div>
+
+        <h2>Share Your Own Tip</h2>
+        <input type="text" id="userTipInput" placeholder="Enter your social health tip here...">
+        <button onclick="shareTip()">Share Tip</button>
+        <div id="user-tip"></div>
+    </main>
+    <script>
+        const tips = [
+            "Smile and make eye contact.",
+            "Ask open-ended questions.",
+            "Find common interests.",
+            "Remember people's names.",
+            "Share something about yourself.",
+            "Be genuine and authentic.",
+            "Attend social events.",
+            "Be supportive and encouraging.",
+            "Volunteer in your community.",
+            "Be patient and take your time.",
+            "Use social media to connect.",
+            "Practice active listening.",
+            "Join a sports team.",
+            "Engage in small talk.",
+            "Be curious about others.",
+            "Express gratitude.",
+            "Follow up after meeting someone.",
+            "Share a meal together.",
+            "Compliment others sincerely.",
+            "Be positive and optimistic.",
+            "Be yourself and relax.",
+            "Take the initiative to invite others.",
+            "Participate in group activities.",
+            "Be aware of body language.",
+            "Share a hobby or skill.",
+            "Attend workshops or classes.",
+            "Be open to new experiences.",
+            "Express your thoughts clearly.",
+            "Respect others' opinions.",
+            "Be empathetic and understanding.",
+            "Stay in touch with friends.",
+            "Use humor appropriately.",
+            "Be a good sport.",
+            "Celebrate others' successes.",
+            "Avoid gossip.",
+            "Learn to handle rejection gracefully.",
+            "Be mindful of personal space.",
+            "Ask for help or advice.",
+            "Practice gratitude.",
+            "Be honest and trustworthy.",
+            "Offer to help someone.",
+            "Be a connector; introduce people.",
+            "Be flexible and adaptable.",
+            "Show genuine interest in others.",
+            "Participate in team-building activities.",
+            "Attend networking events.",
+            "Be respectful of different cultures.",
+            "Engage in active conversations.",
+            "Join local clubs or organizations.",
+            "Take part in community service.",
+            "Be enthusiastic.",
+            "Practice conflict resolution skills.",
+            "Give and receive feedback gracefully.",
+            "Be open to criticism.",
+            "Practice self-awareness.",
+            "Learn about emotional intelligence.",
+            "Practice gratitude in relationships.",
+            "Engage in storytelling.",
+            "Be assertive but respectful.",
+            "Show vulnerability appropriately.",
+            "Create a welcoming environment.",
+            "Encourage others to share.",
+            "Be mindful of your tone.",
+            "Acknowledge others' feelings.",
+            "Create opportunities for interaction.",
+            "Be present in conversations.",
+            "Limit distractions when talking.",
+            "Engage in active listening.",
+            "Make time for friends.",
+            "Show appreciation for friendships.",
+            "Be non-judgmental.",
+            "Learn about different perspectives.",
+            "Engage in cooperative activities.",
+            "Attend cultural events.",
+            "Be a good mediator.",
+            "Share resources and information.",
+            "Seek out diverse friendships.",
+            "Be reliable and dependable.",
+            "Ask thoughtful questions.",
+            "Encourage inclusivity.",
+            "Stay in touch with old friends.",
+            "Share experiences and memories.",
+            "Attend social gatherings regularly.",
+            "Be involved in community discussions.",
+            "Practice patience in conversations.",
+            "Be kind and compassionate.",
+            "Share your goals with friends.",
+            "Encourage open dialogue.",
+            "Recognize social cues.",
+            "Be proactive in maintaining friendships.",
+            "Create rituals or traditions.",
+            "Be mindful of timing in conversations.",
+            "Avoid interrupting others.",
+            "Foster an environment of respect.",
+            "Engage in mutual support.",
+            "Practice vulnerability to deepen connections.",
+            "Engage in play and fun activities.",
+            "Encourage sharing of ideas.",
+            "Create a sense of belonging.",
+            "Make a list of friends and check in.",
+            "Utilize icebreakers in new groups.",
+            "Set social goals for yourself.",
+            "Be aware of personal biases.",
+            "Engage in professional networking.",
+            "Balance talking and listening.",
+            "Respect boundaries.",
+            "Stay curious and ask questions.",
+            "Join online communities.",
+            "Share a positive outlook.",
+            "Be willing to compromise.",
+            "Engage in friendly debates.",
+            "Encourage others to shine.",
+            "Cultivate a sense of humor.",
+            "Be supportive in tough times.",
+            "Be proactive in resolving conflicts.",
+            "Maintain an open mind.",
+            "Celebrate differences.",
+            "Engage in meaningful conversations."
+        ];
+
+        function getTip() {
+            const randomIndex = Math.floor(Math.random() * tips.length);
+            const tipDisplay = document.getElementById('tip');
+            tipDisplay.textContent = tips[randomIndex];
+        }
+
+        function shareTip() {
+            const userTipInput = document.getElementById('userTipInput');
+            const userTip = userTipInput.value.trim();
+            if (userTip) {
+                const userTipDisplay = document.getElementById('user-tip');
+                const newTip = document.createElement('div');
+                newTip.textContent = userTip;
+                newTip.style.border = "1px solid #007BFF"; /* Blue */
+                newTip.style.borderRadius = "5px";
+                newTip.style.padding = "10px";
+                newTip.style.marginTop = "10px";
+                newTip.style.backgroundColor = "#e6f0ff"; /* Light blue background */
+                userTipDisplay.appendChild(newTip);
+                userTipInput.value = ''; // Clear input
+                window.scrollTo(0, document.body.scrollHeight); // Scroll to the bottom
+            } else {
+                alert("Please enter a valid tip.");
+            }
+        }
+    </script>
+</body>
+</html>

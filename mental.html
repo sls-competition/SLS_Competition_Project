@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        header {
+            background-color: #00796b;
+            color: white;
+            padding: 1em;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        main {
+            padding: 2em;
+        }
+
+        h2 {
+            margin-top: 1em;
+            color: #004d40;
+        }
+
+        .mood-selector {
+            margin-top: 1em;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 0.5em;
+            display: block;
+        }
+
+        select {
+            padding: 0.5em;
+            border-radius: 5px;
+            border: 1px solid #4caf50; 
+            transition: border-color 0.3s ease;
+        }
+
+        select:hover {
+            border-color: #00796b; 
+        }
+
+        .log {
+            margin-top: 1em;
+            padding: 1em;
+            border-radius: 5px;
+            background-color: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .log:hover {
+            transform: scale(1.02);
+            background-color: #f1f8e9;
+        }
+
+        .button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 0.5em 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-top: 1em;
+        }
+
+        .button:hover {
+            background-color: #45a049; 
+            transform: scale(1.05);
+        }
+
+        #counseling-services {
+            margin-top: 2em;
+            padding: 1em;
+            border-radius: 5px;
+            background-color: #ffffff; 
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .coming-soon {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #d9534f; 
+        }
+
+        #tips, #mindfulness, #meditation, #breathing, #stress-relief {
+            display: none; 
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mental Health</h1>
+        <a href="index.html" style="color: white; text-decoration: none;">Home</a>
+    </header>
+    <main>
+        <h2>Mood Tracking</h2>
+        <div class="mood-selector">
+            <label for="mood-select">Choose Your Mood:</label>
+            <select id="mood-select" onchange="trackMood()">
+                <option value="">--Choose a mood--</option>
+                <option value="sad">Sad</option>
+                <option value="happy">Happy</option>
+                <option value="angry">Angry</option>
+                <option value="excited">Excited</option>
+                <option value="nervous">Nervous</option>
+            </select>
+            <div class="log" id="mood-log"></div>
+            <div id="tips">
+                <strong>Tip:</strong>
+                <p id="tip-message"></p>
+            </div>
+        </div>
+
+        <button class="button" onclick="showRandomMindfulness()">Get Random Mindfulness Exercise</button>
+        <div class="log" id="mindfulness-log"></div>
+
+        <button class="button" onclick="showRandomMeditation()">Get Random Guided Meditation</button>
+        <div class="log" id="meditation-log"></div>
+
+        <button class="button" onclick="showRandomBreathing()">Get Random Breathing Exercise</button>
+        <div class="log" id="breathing-log"></div>
+
+        <button class="button" onclick="showRandomStressRelief()">Get Random Stress-Relief Activity</button>
+        <div class="log" id="stress-relief-log"></div>
+
+        <div id="counseling-services">
+            <p class="coming-soon">Counseling Services: Coming Soon</p>
+        </div>
+
+        <script>
+            const moods = [];
+            const tips = {
+                sad: [
+                    "Write down three things you are grateful for.",
+                    "Take a short walk outside to change your environment.",
+                    "Listen to a favorite uplifting song.",
+                    "Reach out to a friend and talk about your feelings.",
+                    "Practice deep breathing for 5 minutes.",
+                    "Try to write a short story or journal entry.",
+                    "Spend some time with a pet.",
+                    "Watch a funny movie or show.",
+                    "Engage in a creative activity like painting.",
+                    "Cook a favorite meal for yourself.",
+                    "Do a light workout or go for a run.",
+                    "Take a break from social media for the day.",
+                    "Read an inspiring book or article.",
+                    "Try a new hobby or activity you've wanted to explore.",
+                    "Spend time in nature and appreciate your surroundings.",
+                    "Practice mindfulness meditation.",
+                    "Write a letter to your future self.",
+                    "Organize a small area of your home.",
+                    "Make a list of your accomplishments.",
+                    "Listen to a podcast that makes you laugh.",
+                    "Do some yoga or stretching exercises."
+                ],
+                happy: [
+                    "Share your happiness with someone.",
+                    "Create a vision board for your goals.",
+                    "Dance to your favorite songs.",
+                    "Treat yourself to something special.",
+                    "Write down what makes you happy.",
+                    "Spend time with loved ones.",
+                    "Practice gratitude daily.",
+                    "Take a moment to appreciate your surroundings.",
+                    "Start a positive affirmation journal.",
+                    "Plan a fun outing or adventure.",
+                    "Try something new and exciting.",
+                    "Volunteer your time for a good cause.",
+                    "Spend time doing a favorite hobby.",
+                    "Practice self-care routines.",
+                    "Laugh out loud or watch a comedy.",
+                    "Create a playlist of happy songs.",
+                    "Make a list of things that inspire you.",
+                    "Take a moment to meditate on what brings you joy.",
+                    "Join a group or community that shares your interests.",
+                    "Explore a new place or restaurant.",
+                    "Practice mindfulness to savor the moment."
+                ],
+                angry: [
+                    "Take deep breaths to calm down.",
+                    "Write down your feelings in a journal.",
+                    "Practice physical activity to release tension.",
+                    "Take a break from the situation causing anger.",
+                    "Talk it out with a trusted friend.",
+                    "Count to ten before reacting.",
+                    "Practice progressive muscle relaxation.",
+                    "Try a short meditation focused on letting go.",
+                    "Visualize a peaceful place.",
+                    "Listen to calming music.",
+                    "Engage in a hobby that relaxes you.",
+                    "Write a letter expressing your feelings (but don’t send it).",
+                    "Go for a brisk walk to clear your mind.",
+                    "Practice mindfulness to become aware of your emotions.",
+                    "Use humor to lighten your mood.",
+                    "Engage in creative activities like art.",
+                    "Make a list of things that help you calm down.",
+                    "Set healthy boundaries to reduce anger triggers.",
+                    "Practice self-compassion during tough moments.",
+                    "Focus on finding solutions rather than dwelling on problems.",
+                    "Remember that it's okay to feel angry; it's a normal emotion."
+                ],
+                excited: [
+                    "Share your excitement with someone.",
+                    "Plan your next adventure or goal.",
+                    "Create a list of things you're looking forward to.",
+                    "Practice gratitude for what you have.",
+                    "Document your excitement in a journal.",
+                    "Take a moment to enjoy the present.",
+                    "Visualize achieving your goals.",
+                    "Dance or move around to celebrate.",
+                    "Indulge in something you love.",
+                    "Take a break and breathe deeply to savor the moment.",
+                    "Engage in activities that make you happy.",
+                    "Try a new experience that excites you.",
+                    "Write down your aspirations for the future.",
+                    "Plan a fun outing with friends.",
+                    "Create a vision board for your dreams.",
+                    "Take a moment to reflect on your achievements.",
+                    "Explore new hobbies or interests.",
+                    "Use positive affirmations to boost your energy.",
+                    "Join a community or group that shares your passions.",
+                    "Explore new places in your area.",
+                    "Practice mindfulness to stay grounded in your excitement."
+                ],
+                nervous: [
+                    "Take deep, slow breaths to calm yourself.",
+                    "Practice mindfulness or meditation.",
+                    "Visualize a successful outcome.",
+                    "Prepare for what makes you nervous.",
+                    "Engage in light physical exercise.",
+                    "Write down your worries and challenge them.",
+                    "Talk to someone about your feelings.",
+                    "Create a plan to face your fears.",
+                    "Practice positive affirmations.",
+                    "Focus on what you can control in the situation.",
+                    "Take a break to clear your mind.",
+                    "Listen to calming music.",
+                    "Engage in a grounding exercise, like feeling your feet on the ground.",
+                    "Limit caffeine and sugar intake.",
+                    "Practice gratitude to shift your focus.",
+                    "Use a stress ball or fidget toy.",
+                    "Establish a self-care routine.",
+                    "Try yoga or gentle stretching.",
+                    "Avoid overthinking; focus on the present.",
+                    "Remember that it's okay to feel nervous.",
+                    "Reward yourself for facing your fears."
+                ]
+            };
+
+            const mindfulnessExercises = [
+                "Practice mindful breathing for 5 minutes.",
+                "Focus on your senses; notice what you can see, hear, and feel.",
+                "Try a body scan meditation to relax.",
+                "Spend 10 minutes in nature and observe your surroundings.",
+                "Write down your thoughts without judgment.",
+                "Practice gratitude by listing three things you're thankful for.",
+                "Do a walking meditation, focusing on each step.",
+                "Take a few moments to appreciate the moment.",
+                "Try mindful eating; savor each bite of your food.",
+                "Engage in a creative activity like drawing or painting mindfully.",
+                "Listen to a guided mindfulness meditation.",
+                "Practice yoga and focus on your breath.",
+                "Use a mindfulness app for a short session.",
+                "Do a simple task (like washing dishes) mindfully.",
+                "Reflect on your day with a mindfulness journal.",
+                "Take a few minutes to do nothing and simply be.",
+                "Practice self-compassion by being kind to yourself.",
+                "Watch your thoughts without getting caught up in them.",
+                "Practice loving-kindness meditation for yourself and others.",
+                "Engage in a hobby with full attention.",
+                "Try a simple breathing exercise, like 4-7-8 breathing."
+            ];
+
+            const meditationExercises = [
+                "Guided Meditation: Focus on your breath for 10 minutes.",
+                "Body Scan: Relax each part of your body, starting from your toes.",
+                "Visualization: Imagine a peaceful place and describe it.",
+                "Loving-Kindness Meditation: Send good wishes to yourself and others.",
+                "Mindful Eating: Pay full attention while eating a small piece of food.",
+                "Walking Meditation: Focus on each step you take.",
+                "Chanting or Mantra Meditation: Repeat a calming phrase.",
+                "Gratitude Meditation: Reflect on what you are grateful for.",
+                "Sound Meditation: Listen to calming sounds around you.",
+                "Mindful Listening: Listen to music without distraction.",
+                "Breath Counting: Count your breaths up to ten, then start over.",
+                "Nature Meditation: Spend time outside and absorb the environment.",
+                "Visualization: Picture your goals and how you will achieve them.",
+                "Meditate on a Quote: Reflect on a meaningful quote.",
+                "Progressive Relaxation: Tense and release each muscle group.",
+                "Mindful Journaling: Write freely about your thoughts and feelings.",
+                "Meditate with a Guide: Use a meditation app for structure.",
+                "Focus on a Candle Flame: Meditate on a lit candle for a few minutes.",
+                "Meditation for Anxiety: Visualize your worries fading away.",
+                "Affirmation Meditation: Repeat positive affirmations.",
+                "Gratitude Reflection: Spend time appreciating small joys."
+            ];
+
+            const breathingExercises = [
+                "Box Breathing: Inhale for 4, hold for 4, exhale for 4, hold for 4.",
+                "4-7-8 Breathing: Inhale for 4, hold for 7, exhale for 8.",
+                "Diaphragmatic Breathing: Focus on breathing deeply into your belly.",
+                "Nostril Breathing: Alternate breathing through each nostril.",
+                "Pursed Lip Breathing: Inhale through the nose and exhale slowly through pursed lips.",
+                "Belly Breathing: Place a hand on your belly and feel it rise and fall.",
+                "Counted Breathing: Count your breaths to bring awareness.",
+                "Mindful Breathing: Focus on the sensation of air entering and leaving.",
+                "Visualization Breathing: Imagine a calming color with each breath.",
+                "Breathing with Movement: Pair breathing with gentle stretches.",
+                "Resonant Breathing: Inhale and exhale at a slow, even pace.",
+                "Breathing for Relaxation: Inhale deeply and sigh out the stress.",
+                "Ocean Breathing: Make a soft ocean sound while breathing.",
+                "Breath Awareness: Simply observe your natural breath.",
+                "Focused Breathing: Set a timer and focus solely on your breath.",
+                "Humming Breath: Hum as you exhale for a calming effect.",
+                "Counting Breaths: Count down from 10 as you breathe.",
+                "Deep Breathing: Inhale deeply, hold, and exhale slowly.",
+                "Sipping Breath: Imagine sipping air in through a straw.",
+                "Breathing with Affirmations: Inhale confidence, exhale doubt.",
+                "Breath of Fire: Rapid, short breaths to energize."
+            ];
+
+            const stressReliefActivities = [
+                "Take a 10-minute walk in nature.",
+                "Practice deep breathing exercises.",
+                "Write in a journal about your day.",
+                "Try a new hobby like painting or knitting.",
+                "Listen to your favorite music.",
+                "Engage in physical exercise like jogging or yoga.",
+                "Meditate for 10 minutes using a guided app.",
+                "Read a book or watch a favorite movie.",
+                "Cook a new recipe or bake something sweet.",
+                "Practice progressive muscle relaxation.",
+                "Do a puzzle or play a game you enjoy.",
+                "Spend time with friends or family.",
+                "Volunteer at a local charity or community service.",
+                "Try aromatherapy with essential oils.",
+                "Create a relaxing space at home.",
+                "Explore a new place or park in your area.",
+                "Have a digital detox for a day.",
+                "Plant flowers or tend to a garden.",
+                "Enjoy a warm bath with calming scents.",
+                "Write a letter to someone you appreciate.",
+                "Practice self-care by pampering yourself."
+            ];
+
+            function trackMood() {
+                const moodSelect = document.getElementById('mood-select');
+                const selectedMood = moodSelect.value;
+                const tipMessage = document.getElementById('tip-message');
+                
+                if (selectedMood) {
+                    const randomTip = tips[selectedMood][Math.floor(Math.random() * tips[selectedMood].length)];
+                    tipMessage.innerText = randomTip;
+                    document.getElementById('mood-log').innerText = `You selected: ${selectedMood}`;
+                    document.getElementById('tips').style.display = 'block';
+                } else {
+                    document.getElementById('mood-log').innerText = '';
+                    tipMessage.innerText = '';
+                    document.getElementById('tips').style.display = 'none';
+                }
+            }
+
+            function showRandomMindfulness() {
+                const randomMindfulness = mindfulnessExercises[Math.floor(Math.random() * mindfulnessExercises.length)];
+                document.getElementById('mindfulness-log').innerText = randomMindfulness;
+                document.getElementById('mindfulness-log').style.display = 'block';
+            }
+
+            function showRandomMeditation() {
+                const randomMeditation = meditationExercises[Math.floor(Math.random() * meditationExercises.length)];
+                document.getElementById('meditation-log').innerText = randomMeditation;
+                document.getElementById('meditation-log').style.display = 'block';
+            }
+
+            function showRandomBreathing() {
+                const randomBreathing = breathingExercises[Math.floor(Math.random() * breathingExercises.length)];
+                document.getElementById('breathing-log').innerText = randomBreathing;
+                document.getElementById('breathing-log').style.display = 'block';
+            }
+
+            function showRandomStressRelief() {
+                const randomActivity = stressReliefActivities[Math.floor(Math.random() * stressReliefActivities.length)];
+                document.getElementById('stress-relief-log').innerText = randomActivity;
+                document.getElementById('stress-relief-log').style.display = 'block';
+            }
+        </script>
+    </main>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Emotional Health</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+        }
+        h1 {
+            margin: 0;
+        }
+        main {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        textarea:focus {
+            border-color: #4CAF50;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+            transform: translateY(-3px);
+        }
+        #journal-log {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        #affirmation {
+            text-align: center;
+            font-size: 24px;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #e0f7fa;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        button:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Emotional Health</h1>
+        <a href="index.html" style="color: white; text-decoration: none;">Home</a>
+    </header>
+    <main>
+        <h2>Journaling</h2>
+        <textarea id="journal-entry" placeholder="Write your thoughts..."></textarea>
+        <button onclick="saveJournal()">Save Entry</button>
+        <div id="journal-log"></div>
+
+        <h2>Positive Affirmations</h2>
+        <div id="affirmation"></div>
+        <button onclick="showRandomAffirmation()">Get Affirmation</button>
+
+        <script>
+            const journalEntries = [];
+            const affirmations = [
+                "I am enough just as I am.",
+                "I am capable of achieving my goals.",
+                "I choose to be happy and positive.",
+                "I believe in my abilities.",
+                "I am worthy of love and respect.",
+                "I can overcome any challenge.",
+                "I am deserving of success.",
+                "I attract positive energy.",
+                "I am grateful for the good in my life.",
+                "I embrace my uniqueness.",
+                "I am in control of my thoughts.",
+                "I choose to see the good in others.",
+                "I am strong and resilient.",
+                "I am open to new opportunities.",
+                "I trust myself to make the right decisions.",
+                "I am surrounded by love.",
+                "I am constantly growing and evolving.",
+                "I am worthy of my dreams.",
+                "I radiate positivity.",
+                "I am patient and calm.",
+                "I appreciate the beauty around me.",
+                "I am a magnet for success.",
+                "I am confident in my choices.",
+                "I release negativity from my life.",
+                "I am creating a life I love.",
+                "I am loved and valued.",
+                "I am capable of great things.",
+                "I deserve happiness and joy.",
+                "I am free to be myself.",
+                "I can achieve anything I set my mind to.",
+                "I am a positive influence on others.",
+                "I trust the journey of my life.",
+                "I am worthy of good things.",
+                "I forgive myself and others.",
+                "I have the power to create change.",
+                "I am filled with positive thoughts.",
+                "I celebrate my achievements.",
+                "I am learning and growing every day.",
+                "I deserve to take time for myself.",
+                "I attract opportunities to grow.",
+                "I choose to let go of fear.",
+                "I believe in my potential.",
+                "I am grateful for my body.",
+                "I am proud of who I am.",
+                "I am resilient in the face of adversity.",
+                "I am surrounded by abundance.",
+                "I believe in my dreams.",
+                "I am at peace with my past.",
+                "I attract positivity and happiness.",
+                "I embrace change and new beginnings.",
+                "I am worthy of love and joy.",
+                "I am confident in my future.",
+                "I am open to receive all the good life has to offer."
+            ];
+
+            function saveJournal() {
+                const entry = document.getElementById('journal-entry').value.trim();
+                if (entry) {
+                    journalEntries.push(entry);
+                    document.getElementById('journal-log').innerText = `Journal Entries: ${journalEntries.join(' - ')}`;
+                    document.getElementById('journal-entry').value = '';
+                }
+            }
+
+            function showRandomAffirmation() {
+                const randomIndex = Math.floor(Math.random() * affirmations.length);
+                document.getElementById('affirmation').innerText = affirmations[randomIndex];
+            }
+        </script>
+    </main>
+</body>
+</html>

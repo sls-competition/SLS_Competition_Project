@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physical Health</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            background: #007bff;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        main {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #007bff;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+        }
+        select, button {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            width: calc(100% - 22px);
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .recommendation {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-left: 5px solid #007bff;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Physical Health</h1>
+        <a href="index.html" style="color: white; text-decoration: none;">Home</a>
+    </header>
+    <main>
+        <h2>Fitness Tracking</h2>
+        <label for="fitness-level">Choose your fitness level:</label>
+        <select id="fitness-level">
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+        </select>
+        <button onclick="recommendWorkout()">Recommend Workout</button>
+        <div id="workout-recommendation" class="recommendation"></div>
+
+        <h2>Nutrition Plan</h2>
+        <label for="nutrition-level">Choose your goal:</label>
+        <select id="nutrition-level">
+            <option value="weight-loss">Weight Loss</option>
+            <option value="muscle-gain">Muscle Gain</option>
+            <option value="maintenance">Maintenance</option>
+        </select>
+        <button onclick="recommendNutrition()">Recommend Nutrition Plan</button>
+        <div id="nutrition-plan" class="recommendation"></div>
+
+        <h2>Sleep Tracking</h2>
+        <label for="sleep-quality">Rate your sleep quality:</label>
+        <select id="sleep-quality">
+            <option value="poor">Poor</option>
+            <option value="fair">Fair</option>
+            <option value="good">Good</option>
+        </select>
+        <button onclick="recommendSleep()">Recommend Sleep Improvement</button>
+        <div id="sleep-recommendation" class="recommendation"></div>
+
+        <script>
+            const workouts = {
+                beginner: [
+                    '30-minute walk',
+                    '15-minute bodyweight workout',
+                    'Beginner yoga session',
+                    '15-minute stretching routine',
+                    'Light cycling for 30 minutes',
+                    'Dance for 30 minutes',
+                    '10-minute core workout',
+                    'Beginner Pilates class',
+                    '30-minute hike',
+                    'Jump rope for 10 minutes',
+                    'Beginner circuit training',
+                    'Swimming for 30 minutes',
+                    'Bodyweight squats for 15 minutes',
+                    '10-minute ab workout',
+                    '5-minute warm-up and cool down',
+                    'Chair exercises for 30 minutes',
+                    'Tai Chi for beginners',
+                    'Gardening for 1 hour',
+                    'Basic Pilates routine',
+                    'Walking on a treadmill for 30 minutes'
+                ],
+                intermediate: [
+                    '30-minute jog',
+                    '30-minute bodyweight circuit',
+                    '45-minute cycling',
+                    '30-minute HIIT workout',
+                    '30-minute kickboxing',
+                    '45-minute yoga flow',
+                    '30-minute dance workout',
+                    '30-minute circuit training',
+                    '30-minute swim',
+                    '20-minute plyometrics workout',
+                    'Bodyweight strength training',
+                    '45-minute boot camp class',
+                    '30-minute stair climbing',
+                    '30-minute barre class',
+                    '15-minute core strengthening',
+                    'Jump rope for 15 minutes',
+                    '30-minute interval running',
+                    '40-minute strength training',
+                    'Outdoor hiking for 1 hour',
+                    '45-minute kickboxing class'
+                ],
+                advanced: [
+                    '1-hour gym session',
+                    '60-minute CrossFit workout',
+                    '45-minute trail run',
+                    '60-minute spin class',
+                    '45-minute advanced yoga',
+                    '30-minute interval training',
+                    '1-hour boxing session',
+                    '1-hour weightlifting',
+                    '30-minute advanced HIIT',
+                    '1-hour martial arts class',
+                    '60-minute strength training session',
+                    '45-minute plyometric workout',
+                    '1-hour running at a fast pace',
+                    'Advanced circuit training',
+                    '50-minute HIIT with weights',
+                    'Outdoor sprints for 30 minutes',
+                    '45-minute functional training',
+                    '60-minute kettlebell workout',
+                    '45-minute heavy lifting',
+                    'Outdoor boot camp class'
+                ]
+            };
+
+            const nutritionPlans = {
+                'weight-loss': [
+                    'Plan 1: Low-carb diet focusing on vegetables and proteins.',
+                    'Plan 2: Intermittent fasting with high protein meals.',
+                    'Plan 3: Mediterranean diet rich in healthy fats and fish.',
+                    'Plan 4: Vegan diet with whole foods and legumes.',
+                    'Plan 5: Portion control with balanced meals.',
+                    'Plan 6: Paleo diet emphasizing meats and nuts.',
+                    'Plan 7: High-fiber diet with whole grains and fruits.',
+                    'Plan 8: Low-calorie diet with lean proteins.',
+                    'Plan 9: Detox diet with smoothies and juices.',
+                    'Plan 10: Low-sugar diet focusing on natural sweeteners.',
+                    'Plan 11: Meal prep focusing on healthy snacks.',
+                    'Plan 12: 1500-calorie diet with three meals and two snacks.',
+                    'Plan 13: Low-fat diet emphasizing lean proteins.',
+                    'Plan 14: Whole30 diet avoiding sugar and processed foods.',
+                    'Plan 15: High-water content foods for satiety.',
+                    'Plan 16: Balanced diet with a focus on vegetables.',
+                    'Plan 17: Flexible dieting approach counting macros.',
+                    'Plan 18: Anti-inflammatory diet with spices and herbs.',
+                    'Plan 19: Mindful eating practices to control portions.',
+                    'Plan 20: 5 small meals throughout the day.'
+                ],
+                'muscle-gain': [
+                    'Plan 1: High-protein diet with chicken, fish, and eggs.',
+                    'Plan 2: Bulk diet focusing on calorie surplus.',
+                    'Plan 3: Protein shake supplements post-workout.',
+                    'Plan 4: Carb cycling diet for energy.',
+                    'Plan 5: High-calorie smoothies with nut butters.',
+                    'Plan 6: Vegan protein sources like tofu and lentils.',
+                    'Plan 7: Meal prep with complex carbs and protein.',
+                    'Plan 8: 6 small meals focusing on macros.',
+                    'Plan 9: Creatine supplementation with meals.',
+                    'Plan 10: Omega-3 rich diet with fish and flaxseeds.',
+                    'Plan 11: Meal plan with quinoa, beans, and nuts.',
+                    'Plan 12: High-calorie snacks like trail mix.',
+                    'Plan 13: Eating out strategies to choose high-protein options.',
+                    'Plan 14: Nutrient timing around workouts.',
+                    'Plan 15: Balanced breakfast with eggs and oats.',
+                    'Plan 16: Incorporating dairy for calcium and protein.',
+                    'Plan 17: Lean red meat for iron and protein.',
+                    'Plan 18: Whole grain bread and rice for energy.',
+                    'Plan 19: Healthy fats like avocados and olive oil.',
+                    'Plan 20: Sufficient hydration with electrolytes.'
+                ],
+                'maintenance': [
+                    'Plan 1: Balanced diet with all food groups.',
+                    'Plan 2: Caloric intake based on activity level.',
+                    'Plan 3: Moderation of treats and indulgences.',
+                    'Plan 4: Regular meals with healthy snacks.',
+                    'Plan 5: Emphasis on whole foods and minimizing processed foods.',
+                    'Plan 6: Plant-based meals for more nutrients.',
+                    'Plan 7: Mindful eating practices to enjoy food.',
+                    'Plan 8: Seasonal eating with fresh produce.',
+                    'Plan 9: Family meals focusing on variety.',
+                    'Plan 10: Recipe swaps for healthier versions.',
+                    'Plan 11: Nutrient-rich foods for sustained energy.',
+                    'Plan 12: Meal planning to prevent last-minute unhealthy choices.',
+                    'Plan 13: Hydration strategies with water and herbal teas.',
+                    'Plan 14: Cooking methods like grilling or steaming.',
+                    'Plan 15: Incorporating fiber-rich foods for fullness.',
+                    'Plan 16: Healthy fats for satiety and flavor.',
+                    'Plan 17: Social eating strategies for balance.',
+                    'Plan 18: Keeping a food diary to monitor intake.',
+                    'Plan 19: Adjusting portion sizes for activity levels.',
+                    'Plan 20: Learning new recipes for variety.'
+                ]
+            };
+
+            const sleepTips = {
+                poor: [
+                    'Tip 1: Establish a consistent sleep schedule.',
+                    'Tip 2: Create a relaxing bedtime routine.',
+                    'Tip 3: Limit screen time before bed.',
+                    'Tip 4: Make your bedroom comfortable and dark.',
+                    'Tip 5: Avoid caffeine and nicotine in the evening.',
+                    'Tip 6: Exercise regularly, but not right before bed.',
+                    'Tip 7: Limit naps during the day.',
+                    'Tip 8: Use white noise or earplugs to block distractions.',
+                    'Tip 9: Keep your room at a cool temperature.',
+                    'Tip 10: Consider meditation or deep breathing exercises.',
+                    'Tip 11: Avoid heavy meals close to bedtime.',
+                    'Tip 12: Use comfortable bedding and pillows.',
+                    'Tip 13: Limit liquid intake before bed to reduce trips to the bathroom.',
+                    'Tip 14: Write down your worries to clear your mind.',
+                    'Tip 15: Avoid alcohol before sleeping.',
+                    'Tip 16: Try aromatherapy with calming scents.',
+                    'Tip 17: Consider a sleep diary to track patterns.',
+                    'Tip 18: Limit exposure to bright lights in the evening.',
+                    'Tip 19: Use a sleep mask if needed.',
+                    'Tip 20: Consult a doctor if sleep issues persist.'
+                ],
+                fair: [
+                    'Tip 1: Maintain a consistent sleep schedule.',
+                    'Tip 2: Limit caffeine intake in the afternoon.',
+                    'Tip 3: Wind down with a book or light stretching.',
+                    'Tip 4: Use blackout curtains for a darker room.',
+                    'Tip 5: Ensure your mattress is supportive.',
+                    'Tip 6: Incorporate mindfulness or relaxation techniques.',
+                    'Tip 7: Avoid electronics at least an hour before bed.',
+                    'Tip 8: Create a calming atmosphere in your bedroom.',
+                    'Tip 9: Keep a consistent wake-up time, even on weekends.',
+                    'Tip 10: Try to spend time outdoors during the day.',
+                    'Tip 11: Limit fluid intake an hour before bed.',
+                    'Tip 12: Experiment with different sleep positions.',
+                    'Tip 13: Avoid stimulating activities before bed.',
+                    'Tip 14: Try a warm bath or shower before sleeping.',
+                    'Tip 15: Limit naps to 20 minutes if needed.',
+                    'Tip 16: Keep your bedroom quiet and peaceful.',
+                    'Tip 17: Consider relaxing herbal teas.',
+                    'Tip 18: Use calming music or sounds to help you sleep.',
+                    'Tip 19: Stay organized to reduce stress at night.',
+                    'Tip 20: Seek professional help if necessary.'
+                ],
+                good: [
+                    'Tip 1: Keep a consistent sleep schedule.',
+                    'Tip 2: Maintain a relaxing bedtime routine.',
+                    'Tip 3: Continue limiting caffeine in the afternoon.',
+                    'Tip 4: Keep your sleep environment comfortable.',
+                    'Tip 5: Practice gratitude or reflection before bed.',
+                    'Tip 6: Stay physically active during the day.',
+                    'Tip 7: Avoid heavy meals before sleep.',
+                    'Tip 8: Keep your room dark and quiet.',
+                    'Tip 9: Maintain a healthy diet to support sleep.',
+                    'Tip 10: Stay hydrated, but limit evening drinks.',
+                    'Tip 11: Use your bedroom primarily for sleep and intimacy.',
+                    'Tip 12: Keep a sleep diary to track habits.',
+                    'Tip 13: Continue mindfulness or relaxation techniques.',
+                    'Tip 14: Explore new calming bedtime rituals.',
+                    'Tip 15: Share your sleep goals with a partner or friend.',
+                    'Tip 16: Limit stimulating activities close to bedtime.',
+                    'Tip 17: Seek feedback on your sleep quality from others.',
+                    'Tip 18: Regularly assess and adjust your sleep environment.',
+                    'Tip 19: Celebrate good sleep nights to reinforce habits.',
+                    'Tip 20: Maintain positive sleep associations.'
+                ]
+            };
+
+            function recommendWorkout() {
+                const level = document.getElementById('fitness-level').value;
+                const workoutList = workouts[level];
+                const randomWorkout = workoutList[Math.floor(Math.random() * workoutList.length)];
+                document.getElementById('workout-recommendation').innerText = `Recommended Workout: ${randomWorkout}`;
+            }
+
+            function recommendNutrition() {
+                const goal = document.getElementById('nutrition-level').value;
+                const nutritionList = nutritionPlans[goal];
+                const randomNutrition = nutritionList[Math.floor(Math.random() * nutritionList.length)];
+                document.getElementById('nutrition-plan').innerText = `Recommended Nutrition Plan: ${randomNutrition}`;
+            }
+
+            function recommendSleep() {
+                const quality = document.getElementById('sleep-quality').value;
+                const tipsList = sleepTips[quality];
+                const randomTip = tipsList[Math.floor(Math.random() * tipsList.length)];
+                document.getElementById('sleep-recommendation').innerText = `Recommended Sleep Improvement: ${randomTip}`;
+            }
+        </script>
+    </main>
+</body>
+</html>

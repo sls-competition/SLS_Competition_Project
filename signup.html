@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #428369, #428369);
+            padding: 20px;
+            border-radius: 8px;
+            color: white;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        main {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 350px;
+            margin: 10px;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #428369;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #428369;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #428369;
+            transform: scale(1.05);
+        }
+
+        .success {
+            color: green;
+            margin-top: 10px;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Zen Quest</h1>
+        <a href="index.html" style="color: white; text-decoration: underline;">Home</a>
+    </header>
+
+    <main>
+        <h2>Sign Up</h2>
+        <form id="signUpForm">
+            <input type="text" id="signUpName" placeholder="Name" required>
+            <input type="email" id="signUpEmail" placeholder="Email" required>
+            <input type="password" id="signUpPassword" placeholder="Password" required>
+            <input type="number" id="signUpAge" placeholder="Age" required min="13" max="120">
+            <input type="number" id="signUpHeight" placeholder="Height (cm)" required min="50" max="300">
+            <input type="number" id="signUpWeight" placeholder="Weight (kg)" required min="30">
+            <button type="submit">Sign Up</button>
+            <div id="signUpMessage" class="success"></div>
+        </form>
+        <p>Already have an account? <a href="login.html">Log In</a></p>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+        import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCiPmGvyNPMg0DzKMWe6AHIFtwD6HJIXQU",
+            authDomain: "zen-quest-2.firebaseapp.com",
+            projectId: "zen-quest-2",
+            storageBucket: "zen-quest-2.appspot.com",
+            messagingSenderId: "140628347308",
+            appId: "1:140628347308:web:0caa0fc2446b9941485209",
+            measurementId: "G-JPLCY511FR"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        function signUp(email, password, name, age, height, weight) {
+            createUserWithEmailAndPassword(auth, email, password)
+            .then(async (userCredential) => {
+                const userId = userCredential.user.uid;
+
+                await setDoc(doc(db, "users", userId), {
+                    name: name,
+                    email: email,
+                    age: age,
+                    height: height,
+                    weight: weight
+                });
+
+                document.getElementById('signUpMessage').textContent = 'Sign Up Successful!';
+                document.getElementById('signUpMessage').className = 'success';
+                window.location.href = 'index.html'; // Redirect after signup
+            })
+            .catch((error) => {
+                let errorMessage = error.message.replace(/Firebase:\s*/i, '');
+                document.getElementById('signUpMessage').textContent = errorMessage;
+                document.getElementById('signUpMessage').className = 'error';
+            });
+        }
+
+        document.getElementById('signUpForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('signUpName').value;
+            const email = document.getElementById('signUpEmail').value;
+            const password = document.getElementById('signUpPassword').value;
+            const age = document.getElementById('signUpAge').value;
+            const height = document.getElementById('signUpHeight').value;
+            const weight = document.getElementById('signUpWeight').value;
+
+            signUp(email, password, name, age, height, weight);
+        });
+    </script>
+</body>
+</html>
