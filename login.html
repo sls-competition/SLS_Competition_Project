@@ -126,7 +126,7 @@
                     document.getElementById('loginMessage').textContent = 'Login Successful!';
                     document.getElementById('loginMessage').className = 'success';
                     localStorage.setItem('isLoggedIn', 'true');
-                    window.location.href = 'index.html'; // Redirect after login
+                    window.location.href = 'index.html';
                 })
                 .catch((error) => {
                     console.error('Error during login:', error);
